@@ -6,16 +6,12 @@ def evaluate(formula, stopper):
   i = 0
   success = 0
   found = []
-  # fail = 1 # init fail to 1 to avoid division by 0. Not important for evaluation
   while i < stopper:
     i += 1
     result = formula.apply(i)
     if result in PRIMES and result not in found:
       success += 1
       found.append(result)
-    # else:
-    #   fail += 1
-  # return float(success) / fail
   return success
 
 def initialize(size):
@@ -27,8 +23,6 @@ def initialize(size):
   return formulas
 
 def main():
-  # For now, use a fixed seed and keep things deterministic
-  # random.seed(0)
   random.seed()
   generation = 0
   stopper = 200

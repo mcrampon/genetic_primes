@@ -14,6 +14,7 @@ import random
 def evaluate(formula, stopper):
   i = 0
   success = 0
+  # init fail to 1 to avoid division by 0. Not important for evaluation
   fail = 1
   while i < len(PRIMES):
     i += 1
@@ -33,8 +34,6 @@ def initialize(size):
   return formulas
 
 def main():
-  # For now, use a fixed seed and keep things deterministic
-  # random.seed(0)
   random.seed()
   generation = 0
   stopper = 200
@@ -50,9 +49,6 @@ def main():
         new_formulas[mother] = formulas.pop(mother)
 
         # Reproduction
-        # if len(father.genes) != len(mother.genes):
-        #   # individuals of different species cannot reproduce. So sad!
-        #   continue
         cut_position = random.randint(0, len(father.genes) - 1)
         child1 = Formula(father.genes[:cut_position] + mother.genes[cut_position:])
         child2 = Formula(mother.genes[:cut_position] + father.genes[cut_position:])
