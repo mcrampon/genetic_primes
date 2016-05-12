@@ -1,4 +1,4 @@
-Genetic primes
+# Genetic primes
 
 Results of last computation with the 'chromosomic' algorithm:
 
