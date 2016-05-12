@@ -1,8 +1,18 @@
+import math
 import random
 import sys
-import math
 
 class Formula():
+  def __init__(self, chromosomes):
+    self.chromosomes = chromosomes
+
+  def apply(self, value):
+    result = 0
+    for chromosome in self.chromosomes:
+      result += chromosome.apply(value)
+    return result
+
+class Chromosome():
   def __init__(self, genes):
     self.genes = genes
 
