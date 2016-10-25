@@ -1,6 +1,9 @@
 from copy import deepcopy
+import getopt
+import pickle
 import random
 import time
+import sys
 
 from conf import (
   C_EVOLUTION_RATE,
@@ -32,10 +35,16 @@ def initialize(size):
     formulas[f] = evaluate(f)
   return formulas
 
-def main():
+def main(argv):
   random.seed(0)
-  generation = 0
-  formulas = initialize(POPULATION_SIZE)
+  try:
+    f = open(argv[0], 'r')
+    generation = int(f.readline().replace('\n', ''))
+    formulas = pickle.loads(f.read())
+    f.close
+  except:
+    generation = 0
+    formulas = initialize(POPULATION_SIZE)
   try:
     while generation < GENERATIONS:
       print "GENERATION : " + str(generation)
@@ -105,6 +114,13 @@ def main():
       generation += 1
   except KeyboardInterrupt:
     print "STOPPED"
+    print "SAVING"
+    if type(formulas) == type([]):
+      formulas = formulas = dict(formulas)
+    f = open('run_save', 'w+')
+    f.write(str(generation) + '\n')
+    f.write(pickle.dumps(formulas))
+    f.close()
 
   f = open('results_' + str(int(time.time())), 'w+')
   print "WINNER :"
@@ -119,4 +135,4 @@ def main():
   print 'Average number of chromosomes : ' + str(length)
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
