@@ -18,6 +18,8 @@ class Chromosome():
 
   def apply(self, value):
     result = value
+    if len(self.genes) == 0:
+      return 0
     for gene in self.genes:
       result = gene.apply(result)
     return result
@@ -101,9 +103,17 @@ def exp(value):
   except:
     return sys.maxint
 
+def sin(value):
+  return math.sin(value)
+
+def cos(value):
+  return math.cos(value)
+
 # Functions that can be used to build genes, and the number of arguments
 # that have to be passed, apart from the value
 FUNCTIONS = {
+  sin: 0,
+  cos: 0,
   log: 0,
   exp: 0,
   inverse: 0,

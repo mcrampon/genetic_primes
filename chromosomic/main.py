@@ -18,6 +18,21 @@ from conf import (
 )
 from models import Gene, Chromosome, Formula, my_pow, multiply, FUNCTIONS
 
+# /////////////////////////////////////////
+# ///                                   ///
+# ///               TO DO               ///
+# ///                                   ///
+# /////////////////////////////////////////
+# ///                                   ///
+# ///        Keep populations of        ///
+# ///        each kind of species       ///
+# ///                                   ///
+# /////////////////////////////////////////
+# ///                                   ///
+# ///       Generate all functions      ///
+# ///                                   ///
+# /////////////////////////////////////////
+
 def evaluate(formula):
   distance = 0
   for i, j in enumerate(PRIMES):
@@ -28,9 +43,10 @@ def evaluate(formula):
 def initialize(size):
   formulas = {}
   for index in range(0, size):
-    g1 = Gene(my_pow, [1.101])
-    g2 = Gene(multiply, [4])
-    c = Chromosome([g1, g2])
+    # g1 = Gene(my_pow, [1.101])
+    # g2 = Gene(multiply, [4])
+    # c = Chromosome([g1, g2])
+    c = Chromosome([Gene.create_gene()])
     f = Formula([c])
     formulas[f] = evaluate(f)
   return formulas
@@ -47,7 +63,9 @@ def main(argv):
     formulas = initialize(POPULATION_SIZE)
   try:
     while generation < GENERATIONS:
-      print "GENERATION : " + str(generation)
+      safe_copy = deepcopy(formulas)
+      if generation % 100 == 0:
+        print "GENERATION : " + str(generation)
       new_formulas = {}
       while len(formulas) > 1:
         father = random.choice(formulas.keys())
@@ -109,17 +127,20 @@ def main(argv):
 
       # Selection
       formulas = sorted(new_formulas.items(), key=lambda x: x[1])[:POPULATION_SIZE]
-      print formulas[0][1]
+      if generation % 100 == 0:
+        print formulas[0][1]
+        print len(formulas[0][0].chromosomes)
+        print len(formulas)
       formulas = dict(formulas)
       generation += 1
   except KeyboardInterrupt:
     print "STOPPED"
     print "SAVING"
-    if type(formulas) == type([]):
-      formulas = formulas = dict(formulas)
-    f = open('run_save', 'w+')
+    if type(safe_copy) == type([]):
+      safe_copy = dict(safe_copy)
+    f = open('run_save_' + str(int(time.time())), 'w+')
     f.write(str(generation) + '\n')
-    f.write(pickle.dumps(formulas))
+    f.write(pickle.dumps(safe_copy))
     f.close()
 
   f = open('results_' + str(int(time.time())), 'w+')
