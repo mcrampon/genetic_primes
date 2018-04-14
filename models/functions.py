@@ -1,44 +1,5 @@
 import math
-import random
 import sys
-
-class Formula():
-  def __init__(self, chromosomes):
-    self.chromosomes = chromosomes
-
-  def apply(self, value):
-    result = 0
-    for chromosome in self.chromosomes:
-      result += chromosome.apply(value)
-    return result
-
-class Chromosome():
-  def __init__(self, genes):
-    self.genes = genes
-
-  def apply(self, value):
-    result = value
-    if len(self.genes) == 0:
-      return 0
-    for gene in self.genes:
-      result = gene.apply(result)
-    return result
-
-class Gene():
-  def __init__(self, func, options):
-    self.func = func
-    self.options = options
-
-  def apply(self, value):
-    return self.func(value, *self.options)
-
-  @staticmethod
-  def create_gene():
-    func = random.choice(FUNCTIONS.keys())
-    options = []
-    if FUNCTIONS[func]:
-      options.append(random.randint(-5,4) + random.random())
-    return Gene(func, options)
 
 def inv_pow(value, option):
   if abs(value) > 30:

@@ -1,6 +1,6 @@
 # Genetic primes
 
-Results of last computation with the 'chromosomic' algorithm:
+Results of last computation with the algorithm, after approximately 24 hours:
 
 ![alt text](https://raw.githubusercontent.com/mcrampon/genetic_primes/master/chromosomic/absolute.png "Results for chromosomic computation")
 
