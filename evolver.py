@@ -13,7 +13,7 @@ class Evolver():
   @staticmethod
   def initialize_formulas(primes_for_evaluation):
     formulas = {}
-    for index in range(0, POPULATION_SIZE):
+    for _ in range(POPULATION_SIZE):
       chromosome = Chromosome([Gene.create_gene()])
       formula = Formula([chromosome])
       formulas[formula] = formula.evaluate(PRIMES[:primes_for_evaluation])
