@@ -12,10 +12,10 @@ class Formula():
 
   def evaluate(self, primes):
     distance = 0
-    for i, j in enumerate(primes):
-      result = self.apply(i + 1)
+    for n, nth_prime in enumerate(primes):
+      result = self.apply(n + 1)
       try:
-        distance += (j - result)**2
+        distance += (nth_prime - result)**2
       except OverflowError:
         distance = maxint
     return distance

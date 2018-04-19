@@ -14,9 +14,9 @@ class Evolver():
   def initialize_formulas(primes_for_evaluation):
     formulas = {}
     for index in range(0, POPULATION_SIZE):
-      c = Chromosome([Gene.create_gene()])
-      f = Formula([c])
-      formulas[f] = f.evaluate(PRIMES[:primes_for_evaluation])
+      chromosome = Chromosome([Gene.create_gene()])
+      formula = Formula([chromosome])
+      formulas[formula] = formula.evaluate(PRIMES[:primes_for_evaluation])
     return formulas
 
   def __init__(self, primes_for_evaluation):
@@ -57,7 +57,7 @@ class Evolver():
   def select_formulas(self, formulas):
     return sorted(
       formulas.items(),
-      key=lambda x: x[1]
+      key=lambda formula: formula[1]
     )[:POPULATION_SIZE]
 
   def evaluate_formulas(self, formulas):
@@ -66,19 +66,19 @@ class Evolver():
         [formula[0], formula[0].evaluate(PRIMES[:self.primes_for_evaluation])]
         for formula in formulas
       ],
-      key=lambda x: x[1]
+      key=lambda formula: formula[1]
     )
 
   def create_children(self, father, mother):
     child1 = Formula([])
     child2 = Formula([])
-    for i in range(0, len(father.chromosomes)):
+    for c_index in range(len(father.chromosomes)):
       if random.random() < 0.5:
-        child1.chromosomes.append(deepcopy(father.chromosomes[i]))
-        child2.chromosomes.append(deepcopy(mother.chromosomes[i]))
+        child1.chromosomes.append(deepcopy(father.chromosomes[c_index]))
+        child2.chromosomes.append(deepcopy(mother.chromosomes[c_index]))
       else:
-        child2.chromosomes.append(deepcopy(father.chromosomes[i]))
-        child1.chromosomes.append(deepcopy(mother.chromosomes[i]))
+        child2.chromosomes.append(deepcopy(father.chromosomes[c_index]))
+        child1.chromosomes.append(deepcopy(mother.chromosomes[c_index]))
     return [child1, child2]
 
   def next_primes_for_evaluation(self, formulas):

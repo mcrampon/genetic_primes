@@ -34,26 +34,26 @@ class Mutator():
 
   def mutate_gene(self):
     if random.random() < SMALL_MUTATION_RATE:
-      c_pos = random.randint(0, len(self.individual.chromosomes) - 1)
-      g_pos = random.randint(
+      c_index = random.randint(0, len(self.individual.chromosomes) - 1)
+      g_index = random.randint(
         0,
-        len(self.individual.chromosomes[c_pos].genes) - 1
+        len(self.individual.chromosomes[c_index].genes) - 1
       )
-      func = self.individual.chromosomes[c_pos].genes[g_pos].func
+      func = self.individual.chromosomes[c_index].genes[g_index].func
       options = [
         random.random() * 10 - 5
         for _ in range(FUNCTIONS[func])
       ]
-      self.individual.chromosomes[c_pos].genes[g_pos].options = options
+      self.individual.chromosomes[c_index].genes[g_index].options = options
 
   def replace_gene(self):
     if random.random() < MUTATION_RATE:
-      c_pos = random.randint(0, len(self.individual.chromosomes) - 1)
-      g_pos = random.randint(
+      c_index = random.randint(0, len(self.individual.chromosomes) - 1)
+      g_index = random.randint(
         0,
-        len(self.individual.chromosomes[c_pos].genes) - 1
+        len(self.individual.chromosomes[c_index].genes) - 1
       )
-      self.individual.chromosomes[c_pos].genes[g_pos] = Gene.create_gene()
+      self.individual.chromosomes[c_index].genes[g_index] = Gene.create_gene()
 
   def add_gene(self):
     if random.random() < EVOLUTION_RATE:
@@ -66,13 +66,13 @@ class Mutator():
       len(self.individual.chromosomes) > 1
       and random.random() < SUPPRESSION_RATE
     ):
-      c_pos = random.randint(0, len(self.individual.chromosomes) - 1)
-      if len(self.individual.chromosomes[c_pos].genes) > 1:
-        g_pos = random.randint(
+      c_index = random.randint(0, len(self.individual.chromosomes) - 1)
+      if len(self.individual.chromosomes[c_index].genes) > 1:
+        g_index = random.randint(
           0,
-          len(self.individual.chromosomes[c_pos].genes) - 1
+          len(self.individual.chromosomes[c_index].genes) - 1
         )
-        self.individual.chromosomes[c_pos].genes.pop(g_pos)
+        self.individual.chromosomes[c_index].genes.pop(g_index)
 
   def add_chromosome(self):
     if random.random() < C_EVOLUTION_RATE:
