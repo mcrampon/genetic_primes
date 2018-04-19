@@ -1,3 +1,5 @@
+from sys import maxint
+
 class Formula():
   def __init__(self, chromosomes):
     self.chromosomes = chromosomes
@@ -12,5 +14,8 @@ class Formula():
     distance = 0
     for i, j in enumerate(primes):
       result = self.apply(i + 1)
-      distance += abs(j - result)
+      try:
+        distance += (j - result)**2
+      except OverflowError:
+        distance = maxint
     return distance

@@ -1,31 +1,26 @@
-from copy import deepcopy
 import random
+from copy import deepcopy
 
-from conf import (
-  C_EVOLUTION_RATE,
-  C_SUPPRESSION_RATE,
-  EVOLUTION_RATE,
-  MUTATION_RATE,
-  POPULATION_SIZE,
-  PRIMES,
-  SMALL_MUTATION_RATE,
-  SUPPRESSION_RATE
-)
+from conf import POPULATION_SIZE, PRIMES
 
 from logger import Logger
 from models.gene import Gene
 from models.chromosome import Chromosome
 from models.formula import Formula
-from models.functions import FUNCTIONS
+from mutator import Mutator
 
 class Evolver():
-  def initialize_formulas(self):
+  @staticmethod
+  def initialize_formulas(primes_for_evaluation):
     formulas = {}
     for index in range(0, POPULATION_SIZE):
       c = Chromosome([Gene.create_gene()])
       f = Formula([c])
-      formulas[f] = f.evaluate(PRIMES)
+      formulas[f] = f.evaluate(PRIMES[:primes_for_evaluation])
     return formulas
+
+  def __init__(self, primes_for_evaluation):
+    self.primes_for_evaluation = primes_for_evaluation
 
   def next_generation(self, formulas):
     new_formulas = {}
@@ -41,15 +36,38 @@ class Evolver():
       child1, child2 = self.create_children(father, mother)
 
       for child in (child1, child2):
-        self.mutate_individual(child)
-        new_formulas[child] = child.evaluate(PRIMES)
+        Mutator(child).mutate_individual()
+        new_formulas[child] = child.evaluate(
+          PRIMES[:self.primes_for_evaluation]
+        )
 
     # Selection
-    formulas = sorted(
-      new_formulas.items(), key=lambda x: x[1]
-    )[:POPULATION_SIZE]
+    formulas = self.select_formulas(new_formulas)
     Logger.best_formula(formulas)
+
+    # Modify environment
+    next_primes = self.next_primes_for_evaluation(formulas)
+    if next_primes != self.primes_for_evaluation:
+      Logger.primes_for_evaluation(next_primes)
+      self.primes_for_evaluation = next_primes
+      formulas = self.evaluate_formulas(formulas)
+
     return dict(formulas)
+
+  def select_formulas(self, formulas):
+    return sorted(
+      formulas.items(),
+      key=lambda x: x[1]
+    )[:POPULATION_SIZE]
+
+  def evaluate_formulas(self, formulas):
+    return sorted(
+      [
+        [formula[0], formula[0].evaluate(PRIMES[:self.primes_for_evaluation])]
+        for formula in formulas
+      ],
+      key=lambda x: x[1]
+    )
 
   def create_children(self, father, mother):
     child1 = Formula([])
@@ -63,56 +81,8 @@ class Evolver():
         child1.chromosomes.append(deepcopy(mother.chromosomes[i]))
     return [child1, child2]
 
-  def mutate_individual(self, individual):
-    # SMALL_MUTATION_RATE
-    self.mutate_gene(individual)
-    # MUTATION_RATE
-    self.replace_gene(individual)
-    # EVOLUTION_RATE
-    self.add_gene(individual)
-    # SUPPRESSION_RATE
-    self.remove_gene(individual)
-    # C_EVOLUTION_RATE
-    self.add_chromosome(individual)
-    # C_SUPPRESSION_RATE
-    self.remove_chromosome(individual)
-
-  def mutate_gene(self, individual):
-    if random.random() < SMALL_MUTATION_RATE:
-      c_pos = random.randint(0, len(individual.chromosomes) - 1)
-      g_pos = random.randint(0, len(individual.chromosomes[c_pos].genes) - 1)
-      func = individual.chromosomes[c_pos].genes[g_pos].func
-      options = [
-        random.randint(-5, 4) + random.random()
-        for _ in range(FUNCTIONS[func])
-      ]
-      individual.chromosomes[c_pos].genes[g_pos].options = options
-
-  def replace_gene(self, individual):
-    if random.random() < MUTATION_RATE:
-      c_pos = random.randint(0, len(individual.chromosomes) - 1)
-      g_pos = random.randint(0, len(individual.chromosomes[c_pos].genes) - 1)
-      individual.chromosomes[c_pos].genes[g_pos] = Gene.create_gene()
-
-  def add_gene(self, individual):
-    if random.random() < EVOLUTION_RATE:
-      individual.chromosomes[
-        random.randint(0, len(individual.chromosomes) - 1)
-      ].genes.append(Gene.create_gene())
-
-  def remove_gene(self, individual):
-    if len(individual.chromosomes) > 1 and random.random() < SUPPRESSION_RATE:
-      c_pos = random.randint(0, len(individual.chromosomes) - 1)
-      if len(individual.chromosomes[c_pos].genes) > 1:
-        g_pos = random.randint(0, len(individual.chromosomes[c_pos].genes) - 1)
-        individual.chromosomes[c_pos].genes.pop(g_pos)
-
-  def add_chromosome(self, individual):
-    if random.random() < C_EVOLUTION_RATE:
-      individual.chromosomes.append(Chromosome([Gene.create_gene()]))
-
-  def remove_chromosome(self, individual):
-    if len(individual.chromosomes) > 1 and random.random() < C_SUPPRESSION_RATE:
-      individual.chromosomes.pop(
-        random.randint(0, len(individual.chromosomes) - 1)
-      )
+  def next_primes_for_evaluation(self, formulas):
+    if formulas[0][1] < 5 * sum(PRIMES[:self.primes_for_evaluation]) / 100.0:
+      return min(self.primes_for_evaluation + 1, 10**4)
+    else:
+      return self.primes_for_evaluation

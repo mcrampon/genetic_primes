@@ -12,7 +12,8 @@ class Gene():
   @staticmethod
   def create_gene():
     func = random.choice(FUNCTIONS.keys())
-    options = []
-    if FUNCTIONS[func]:
-      options.append(random.random() * 10 - 5)
+    options = [
+      random.random() * 10 - 5
+      for _ in range(FUNCTIONS[func])
+    ]
     return Gene(func, options)

@@ -9,11 +9,12 @@ class XmlParser():
   def parse_formulas(self, file_path):
     formulas_el = ET.parse(file_path).getroot()
     generation = int(formulas_el.attrib['generation'])
+    primes_for_evaluation = int(formulas_el.attrib['primes_for_evaluation'])
     formulas = {}
     for formula_el in formulas_el:
       formula, evaluation = self.parse_formula(formula_el)
       formulas[formula] = evaluation
-    return [formulas, generation]
+    return [formulas, generation, primes_for_evaluation]
 
   def parse_formula(self, formula_el):
     chromosomes = [

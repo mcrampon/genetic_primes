@@ -1,8 +1,14 @@
 import xml.etree.ElementTree as ET
 
 class XmlBuilder():
-  def build_formulas_element(self, formulas, generation):
-    formulas_el = ET.Element('Formulas', { 'generation' : str(generation) })
+  def build_formulas_element(self, formulas, generation, primes_for_evaluation):
+    formulas_el = ET.Element(
+      'Formulas',
+      {
+        'generation' : str(generation),
+        'primes_for_evaluation': str(primes_for_evaluation)
+      }
+    )
     for formula, evaluation in formulas.iteritems():
       self.build_formula_element(formulas_el, formula, evaluation)
     return ET.tostring(formulas_el, encoding='utf8', method='xml')

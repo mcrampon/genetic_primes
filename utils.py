@@ -11,12 +11,16 @@ class Utils():
     return XmlParser().parse_formulas(file_path)
 
   @staticmethod
-  def save_formulas_to_file(formulas, generation):
+  def save_formulas_to_file(formulas, generation, primes_for_evaluation):
     if type(formulas) == type([]):
       formulas = dict(formulas)
     Utils.__write_xml_to_file(
       minidom.parseString(
-        XmlBuilder().build_formulas_element(formulas, generation)
+        XmlBuilder().build_formulas_element(
+          formulas,
+          generation,
+          primes_for_evaluation
+        )
       ).toprettyxml(indent='  ')
     )
 

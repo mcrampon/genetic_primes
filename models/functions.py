@@ -13,7 +13,7 @@ def inv_pow(value, option):
   except:
     return sys.maxint if option > 0 else - sys.maxint
 
-def my_pow(value, option):
+def safe_pow(value, option):
   if abs(option) > 30:
     return sys.maxint
   if option <= 0 and value == 0:
@@ -65,10 +65,18 @@ def exp(value):
     return sys.maxint
 
 def sin(value):
-  return math.sin(value)
+  try:
+    return math.sin(value)
+  except ValueError:
+    # Value == inf -> arbitrary choice
+    return 0
 
 def cos(value):
-  return math.cos(value)
+  try:
+    return math.cos(value)
+  except ValueError:
+    # Value == inf -> arbitrary choice
+    return 1
 
 # Functions that can be used to build genes, and the number of arguments
 # that have to be passed, apart from the value
@@ -78,7 +86,7 @@ FUNCTIONS = {
   log: 0,
   exp: 0,
   inverse: 0,
-  my_pow: 1,
+  safe_pow: 1,
   inv_pow: 1,
   add: 1,
   substract: 1,
