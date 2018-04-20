@@ -1,26 +1,25 @@
 from copy import deepcopy
 from random import seed
-import sys
 
 from genetic_primes.conf import GENERATIONS, STARTING_PRIMES_FOR_EVOLUTION
 from genetic_primes.evolver import Evolver
 from genetic_primes.logger import Logger
 from genetic_primes.utils import Utils
 
-def main(argv):
+def main(path_to_save_file=None):
   seed(0)
   formulas = {}
   starting_gen = 0
   primes_for_evaluation = STARTING_PRIMES_FOR_EVOLUTION
 
-  try:
+  if path_to_save_file is None:
+    formulas = Evolver.initialize_formulas(primes_for_evaluation)
+  else:
     (
       formulas,
       starting_gen,
       primes_for_evaluation
-    ) = Utils.load_formulas_from_file(argv[0])
-  except IndexError:
-    formulas = Evolver.initialize_formulas(primes_for_evaluation)
+    ) = Utils.load_formulas_from_file(path_to_save_file)
 
   evolver = Evolver(primes_for_evaluation)
 
@@ -45,4 +44,8 @@ def main(argv):
   )
 
 if __name__ == "__main__":
-  main(sys.argv[1:])
+  import sys
+  if len(sys.argv[1:]) > 0:
+    main(sys.argv[1:][0])
+  else:
+    main()
