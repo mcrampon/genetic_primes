@@ -1,10 +1,11 @@
 import copy
 import random
 
+import genetic_primes.utils as utils
+
 from genetic_primes.conf import GENERATIONS, STARTING_PRIMES_FOR_EVOLUTION
 from genetic_primes.evolver import Evolver
 from genetic_primes.logger import Logger
-from genetic_primes.utils import Utils
 
 def main(path_to_save_file=None):
   random.seed(0)
@@ -19,7 +20,7 @@ def main(path_to_save_file=None):
       formulas,
       starting_gen,
       primes_for_evaluation
-    ) = Utils.load_formulas_from_file(path_to_save_file)
+    ) = utils.load_formulas_from_file(path_to_save_file)
 
   evolver = Evolver(primes_for_evaluation)
 
@@ -29,7 +30,7 @@ def main(path_to_save_file=None):
       safe_copy = copy.deepcopy(formulas)
       formulas = evolver.next_generation(formulas)
       if generation % 5000 == 0:
-        Utils.save_formulas_to_file(
+        utils.save_formulas_to_file(
           safe_copy,
           generation,
           primes_for_evaluation
@@ -37,7 +38,7 @@ def main(path_to_save_file=None):
   except KeyboardInterrupt:
     Logger.stop_save()
 
-  Utils.save_formulas_to_file(
+  utils.save_formulas_to_file(
     safe_copy,
     generation,
     evolver.primes_for_evaluation
