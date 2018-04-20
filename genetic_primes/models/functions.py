@@ -1,24 +1,6 @@
 import math
 from sys import maxsize
 
-def inv_pow(value, option):
-  if abs(value) > 30:
-    return maxsize
-  if value <= 0 and option == 0:
-    return 0
-  if int(value) != value and option < 0:
-    return - pow(- option, value)
-  return pow(option, value)
-
-def safe_pow(value, option):
-  if abs(option) > 30:
-    return maxsize
-  if option <= 0 and value == 0:
-    return 0
-  if int(option) != option and value < 0:
-    return - pow(- value, option)
-  return pow(value, option)
-
 def inverse(value):
   if value == 0:
     return maxsize
@@ -47,10 +29,34 @@ def inv_substract(value, option):
   return option - value
 
 def log(value):
-  return math.log(abs(value))
+  try:
+    return math.log(abs(value))
+  except ValueError:
+    return -maxsize
 
 def exp(value):
-  return math.exp(value)
+  try:
+    return math.exp(value)
+  except OverflowError:
+    return maxsize
+
+def inv_pow(value, option):
+  if abs(value * log(option)) > log(maxsize):
+    return math.copysign(maxsize, option)
+  if value <= 0 and option == 0:
+    return 0
+  if int(value) != value and option < 0:
+    return - pow(- option, value)
+  return pow(option, value)
+
+def safe_pow(value, option):
+  if abs(option * log(value)) > log(maxsize):
+    return math.copysign(maxsize, value)
+  if option <= 0 and value == 0:
+    return 0
+  if int(option) != option and value < 0:
+    return - pow(- value, option)
+  return pow(value, option)
 
 def sin(value):
   try:

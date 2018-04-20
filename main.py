@@ -2,10 +2,10 @@ from copy import deepcopy
 from random import seed
 import sys
 
-from conf import GENERATIONS, STARTING_PRIMES_FOR_EVOLUTION
-from evolver import Evolver
-from logger import Logger
-from utils import Utils
+from genetic_primes.conf import GENERATIONS, STARTING_PRIMES_FOR_EVOLUTION
+from genetic_primes.evolver import Evolver
+from genetic_primes.logger import Logger
+from genetic_primes.utils import Utils
 
 def main(argv):
   seed(0)

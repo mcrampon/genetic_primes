@@ -1,9 +1,9 @@
 import xml.etree.ElementTree as ET
 
-from models import functions
-from models.gene import Gene
-from models.chromosome import Chromosome
-from models.formula import Formula
+from .models import functions
+from .models.gene import Gene
+from .models.chromosome import Chromosome
+from .models.formula import Formula
 
 class XmlParser():
   def parse_formulas(self, file_path):

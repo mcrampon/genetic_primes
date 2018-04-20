@@ -2,8 +2,8 @@ import os
 import time
 from xml.dom import minidom
 
-from xml_builder import XmlBuilder
-from xml_parser import XmlParser
+from .xml_builder import XmlBuilder
+from .xml_parser import XmlParser
 
 class Utils():
   @staticmethod

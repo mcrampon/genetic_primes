@@ -1,6 +1,6 @@
 import random
 
-from conf import (
+from .conf import (
   C_EVOLUTION_RATE,
   C_SUPPRESSION_RATE,
   EVOLUTION_RATE,
@@ -9,10 +9,10 @@ from conf import (
   SUPPRESSION_RATE
 )
 
-from models.gene import Gene
-from models.chromosome import Chromosome
-from models.formula import Formula
-from models.functions import FUNCTIONS
+from .models.gene import Gene
+from .models.chromosome import Chromosome
+from .models.formula import Formula
+from .models.functions import FUNCTIONS
 
 class Mutator():
   def __init__(self, individual):

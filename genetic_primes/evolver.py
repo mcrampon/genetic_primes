@@ -1,13 +1,13 @@
 import random
 from copy import deepcopy
 
-from conf import POPULATION_SIZE, PRIMES
+from .conf import POPULATION_SIZE, PRIMES
 
-from logger import Logger
-from models.gene import Gene
-from models.chromosome import Chromosome
-from models.formula import Formula
-from mutator import Mutator
+from .logger import Logger
+from .models.gene import Gene
+from .models.chromosome import Chromosome
+from .models.formula import Formula
+from .mutator import Mutator
 
 class Evolver():
   @staticmethod
