@@ -14,7 +14,7 @@ class Utils():
   def save_formulas_to_file(formulas, generation, primes_for_evaluation):
     if type(formulas) == type([]):
       formulas = dict(formulas)
-    Utils.__write_xml_to_file(
+    Utils._write_xml_to_file(
       minidom.parseString(
         XmlBuilder().build_formulas_element(
           formulas,
@@ -25,7 +25,7 @@ class Utils():
     )
 
   @staticmethod
-  def __write_xml_to_file(xml_string):
+  def _write_xml_to_file(xml_string):
     dir_path = os.path.join(os.getcwd(), 'results')
     if not os.path.isdir(dir_path):
       os.makedirs(dir_path)
