@@ -1,5 +1,5 @@
+import copy
 import random
-from copy import deepcopy
 
 from .conf import POPULATION_SIZE, PRIMES
 
@@ -74,11 +74,11 @@ class Evolver():
     child2 = Formula([])
     for c_index in range(len(father.chromosomes)):
       if random.random() < 0.5:
-        child1.chromosomes.append(deepcopy(father.chromosomes[c_index]))
-        child2.chromosomes.append(deepcopy(mother.chromosomes[c_index]))
+        child1.chromosomes.append(copy.deepcopy(father.chromosomes[c_index]))
+        child2.chromosomes.append(copy.deepcopy(mother.chromosomes[c_index]))
       else:
-        child2.chromosomes.append(deepcopy(father.chromosomes[c_index]))
-        child1.chromosomes.append(deepcopy(mother.chromosomes[c_index]))
+        child2.chromosomes.append(copy.deepcopy(father.chromosomes[c_index]))
+        child1.chromosomes.append(copy.deepcopy(mother.chromosomes[c_index]))
     return [child1, child2]
 
   def next_primes_for_evaluation(self, formulas):

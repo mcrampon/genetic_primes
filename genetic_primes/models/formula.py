@@ -1,4 +1,4 @@
-from sys import maxsize
+import sys
 
 class Formula():
   def __init__(self, chromosomes):
@@ -17,5 +17,5 @@ class Formula():
       try:
         distance += (nth_prime - result)**2
       except OverflowError:
-        distance = maxsize
+        distance = sys.maxsize
     return distance

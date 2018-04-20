@@ -1,9 +1,9 @@
 import math
-from sys import maxsize
+import sys
 
 def inverse(value):
   if value == 0:
-    return maxsize
+    return sys.maxsize
   return 1.0 / value
 
 def add(value, option):
@@ -17,12 +17,12 @@ def multiply(value, option):
 
 def divide(value, option):
   if option == 0:
-    return maxsize
+    return sys.maxsize
   return value / float(option)
 
 def inv_divide(value, option):
   if value == 0:
-    return maxsize
+    return sys.maxsize
   return float(option) / value
 
 def inv_substract(value, option):
@@ -32,17 +32,17 @@ def log(value):
   try:
     return math.log(abs(value))
   except ValueError:
-    return -maxsize
+    return -sys.maxsize
 
 def exp(value):
   try:
     return math.exp(value)
   except OverflowError:
-    return maxsize
+    return sys.maxsize
 
 def inv_pow(value, option):
-  if abs(value * log(option)) > log(maxsize):
-    return math.copysign(maxsize, option)
+  if abs(value * log(option)) > log(sys.maxsize):
+    return math.copysign(sys.maxsize, option)
   if value <= 0 and option == 0:
     return 0
   if int(value) != value and option < 0:
@@ -50,8 +50,8 @@ def inv_pow(value, option):
   return pow(option, value)
 
 def safe_pow(value, option):
-  if abs(option * log(value)) > log(maxsize):
-    return math.copysign(maxsize, value)
+  if abs(option * log(value)) > log(sys.maxsize):
+    return math.copysign(sys.maxsize, value)
   if option <= 0 and value == 0:
     return 0
   if int(option) != option and value < 0:

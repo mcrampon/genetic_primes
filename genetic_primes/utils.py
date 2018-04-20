@@ -1,6 +1,6 @@
 import os
 import time
-from xml.dom import minidom
+from xml.dom import minidom as XmlMinidom
 
 from .xml_builder import XmlBuilder
 from .xml_parser import XmlParser
@@ -10,7 +10,7 @@ def load_formulas_from_file(file_path):
 
 def save_formulas_to_file(formulas, generation, primes_for_evaluation):
   _write_xml_to_file(
-    minidom.parseString(
+    XmlMinidom.parseString(
       XmlBuilder().build_formulas_element(
         formulas,
         generation,
