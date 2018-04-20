@@ -9,8 +9,6 @@ def load_formulas_from_file(file_path):
   return XmlParser().parse_formulas(file_path)
 
 def save_formulas_to_file(formulas, generation, primes_for_evaluation):
-  if type(formulas) == type([]):
-    formulas = dict(formulas)
   _write_xml_to_file(
     minidom.parseString(
       XmlBuilder().build_formulas_element(
