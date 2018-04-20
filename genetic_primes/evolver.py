@@ -33,7 +33,7 @@ class Evolver():
       if len(father.chromosomes) != len(mother.chromosomes):
         # individuals of different species cannot reproduce. So sad!
         continue
-      child1, child2 = self.create_children(father, mother)
+      child1, child2 = self._create_children(father, mother)
 
       for child in (child1, child2):
         Mutator(child).mutate_individual()
@@ -42,25 +42,25 @@ class Evolver():
         )
 
     # Selection
-    formulas = self.select_formulas(new_formulas)
+    formulas = self._select_formulas(new_formulas)
     Logger.best_formula(formulas)
 
     # Modify environment
-    next_primes = self.next_primes_for_evaluation(formulas)
+    next_primes = self._next_primes_for_evaluation(formulas)
     if next_primes != self.primes_for_evaluation:
       Logger.primes_for_evaluation(next_primes)
       self.primes_for_evaluation = next_primes
-      formulas = self.evaluate_formulas(formulas)
+      formulas = self._evaluate_formulas(formulas)
 
     return dict(formulas)
 
-  def select_formulas(self, formulas):
+  def _select_formulas(self, formulas):
     return sorted(
       formulas.items(),
       key=lambda formula: formula[1]
     )[:POPULATION_SIZE]
 
-  def evaluate_formulas(self, formulas):
+  def _evaluate_formulas(self, formulas):
     return sorted(
       [
         [formula[0], formula[0].evaluate(PRIMES[:self.primes_for_evaluation])]
@@ -69,7 +69,7 @@ class Evolver():
       key=lambda formula: formula[1]
     )
 
-  def create_children(self, father, mother):
+  def _create_children(self, father, mother):
     child1 = Formula([])
     child2 = Formula([])
     for c_index in range(len(father.chromosomes)):
@@ -81,7 +81,7 @@ class Evolver():
         child1.chromosomes.append(copy.deepcopy(mother.chromosomes[c_index]))
     return [child1, child2]
 
-  def next_primes_for_evaluation(self, formulas):
+  def _next_primes_for_evaluation(self, formulas):
     if formulas[0][1] < 5 * sum(PRIMES[:self.primes_for_evaluation]) / 100.0:
       return min(self.primes_for_evaluation + 1, 10**4)
     else:

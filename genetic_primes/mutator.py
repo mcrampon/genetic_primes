@@ -20,19 +20,19 @@ class Mutator():
 
   def mutate_individual(self):
     # SMALL_MUTATION_RATE
-    self.mutate_gene()
+    self._mutate_gene()
     # MUTATION_RATE
-    self.replace_gene()
+    self._replace_gene()
     # EVOLUTION_RATE
-    self.add_gene()
+    self._add_gene()
     # SUPPRESSION_RATE
-    self.remove_gene()
+    self._remove_gene()
     # C_EVOLUTION_RATE
-    self.add_chromosome()
+    self._add_chromosome()
     # C_SUPPRESSION_RATE
-    self.remove_chromosome()
+    self._remove_chromosome()
 
-  def mutate_gene(self):
+  def _mutate_gene(self):
     if random.random() < SMALL_MUTATION_RATE:
       c_index = random.randint(0, len(self.individual.chromosomes) - 1)
       g_index = random.randint(
@@ -46,7 +46,7 @@ class Mutator():
       ]
       self.individual.chromosomes[c_index].genes[g_index].options = options
 
-  def replace_gene(self):
+  def _replace_gene(self):
     if random.random() < MUTATION_RATE:
       c_index = random.randint(0, len(self.individual.chromosomes) - 1)
       g_index = random.randint(
@@ -55,13 +55,13 @@ class Mutator():
       )
       self.individual.chromosomes[c_index].genes[g_index] = Gene.create_gene()
 
-  def add_gene(self):
+  def _add_gene(self):
     if random.random() < EVOLUTION_RATE:
       self.individual.chromosomes[
         random.randint(0, len(self.individual.chromosomes) - 1)
       ].genes.append(Gene.create_gene())
 
-  def remove_gene(self):
+  def _remove_gene(self):
     if (
       len(self.individual.chromosomes) > 1
       and random.random() < SUPPRESSION_RATE
@@ -74,11 +74,11 @@ class Mutator():
         )
         self.individual.chromosomes[c_index].genes.pop(g_index)
 
-  def add_chromosome(self):
+  def _add_chromosome(self):
     if random.random() < C_EVOLUTION_RATE:
       self.individual.chromosomes.append(Chromosome([Gene.create_gene()]))
 
-  def remove_chromosome(self):
+  def _remove_chromosome(self):
     if (
       len(self.individual.chromosomes) > 1
       and random.random() < C_SUPPRESSION_RATE
