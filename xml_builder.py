@@ -9,7 +9,7 @@ class XmlBuilder():
         'primes_for_evaluation': str(primes_for_evaluation)
       }
     )
-    for formula, evaluation in formulas.iteritems():
+    for formula, evaluation in formulas.items():
       self.build_formula_element(formulas_el, formula, evaluation)
     return ET.tostring(formulas_el, encoding='utf8', method='xml')
 

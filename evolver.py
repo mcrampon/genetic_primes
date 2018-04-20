@@ -25,9 +25,9 @@ class Evolver():
   def next_generation(self, formulas):
     new_formulas = {}
     while len(formulas) > 1:
-      father = random.choice(formulas.keys())
+      father = random.choice(list(formulas.keys()))
       new_formulas[father] = formulas.pop(father)
-      mother = random.choice(formulas.keys())
+      mother = random.choice(list(formulas.keys()))
       new_formulas[mother] = formulas.pop(mother)
       # Reproduction
       if len(father.chromosomes) != len(mother.chromosomes):

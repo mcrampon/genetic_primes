@@ -1,33 +1,27 @@
 import math
-import sys
+from sys import maxsize
 
 def inv_pow(value, option):
   if abs(value) > 30:
-    return sys.maxint
+    return maxsize
   if value <= 0 and option == 0:
     return 0
-  try:
-    if int(value) != value and option < 0:
-      return - pow(- option, value)
-    return pow(option, value)
-  except:
-    return sys.maxint if option > 0 else - sys.maxint
+  if int(value) != value and option < 0:
+    return - pow(- option, value)
+  return pow(option, value)
 
 def safe_pow(value, option):
   if abs(option) > 30:
-    return sys.maxint
+    return maxsize
   if option <= 0 and value == 0:
     return 0
-  try:
-    if int(option) != option and value < 0:
-      return - pow(- value, option)
-    return pow(value, option)
-  except:
-    return sys.maxint if value > 0 else - sys.maxint
+  if int(option) != option and value < 0:
+    return - pow(- value, option)
+  return pow(value, option)
 
 def inverse(value):
   if value == 0:
-    return sys.maxint
+    return maxsize
   return 1.0 / value
 
 def add(value, option):
@@ -41,41 +35,35 @@ def multiply(value, option):
 
 def divide(value, option):
   if option == 0:
-    return sys.maxint
+    return maxsize
   return value / float(option)
 
 def inv_divide(value, option):
   if value == 0:
-    return sys.maxint
+    return maxsize
   return float(option) / value
 
 def inv_substract(value, option):
   return option - value
 
 def log(value):
-  try:
-    return math.log(abs(value))
-  except:
-    return -sys.maxint
+  return math.log(abs(value))
 
 def exp(value):
-  try:
-    return math.exp(value)
-  except:
-    return sys.maxint
+  return math.exp(value)
 
 def sin(value):
   try:
     return math.sin(value)
-  except ValueError:
-    # Value == inf -> arbitrary choice
+  except OverflowError:
+    # Value too big -> arbitrary choice
     return 0
 
 def cos(value):
   try:
     return math.cos(value)
-  except ValueError:
-    # Value == inf -> arbitrary choice
+  except OverflowError:
+    # Value too big -> arbitrary choice
     return 1
 
 # Functions that can be used to build genes, and the number of arguments

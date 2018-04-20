@@ -1,5 +1,5 @@
 import random
-from functions import FUNCTIONS
+from .functions import FUNCTIONS
 
 class Gene():
   def __init__(self, func, options):
@@ -11,7 +11,7 @@ class Gene():
 
   @staticmethod
   def create_gene():
-    func = random.choice(FUNCTIONS.keys())
+    func = random.choice(list(FUNCTIONS.keys()))
     options = [
       random.random() * 10 - 5
       for _ in range(FUNCTIONS[func])
