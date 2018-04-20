@@ -3,7 +3,7 @@ import random
 
 import genetic_primes.utils as utils
 
-from genetic_primes.conf import GENERATIONS, STARTING_PRIMES_FOR_EVOLUTION
+from genetic_primes.conf import GENERATIONS, STARTING_PRIMES_FOR_EVALUATION
 from genetic_primes.evolver import Evolver
 from genetic_primes.logger import Logger
 
@@ -11,7 +11,7 @@ def main(path_to_save_file=None):
   random.seed(0)
   formulas = {}
   starting_gen = 0
-  primes_for_evaluation = STARTING_PRIMES_FOR_EVOLUTION
+  primes_for_evaluation = STARTING_PRIMES_FOR_EVALUATION
 
   if path_to_save_file is None:
     formulas = Evolver.initialize_formulas(primes_for_evaluation)

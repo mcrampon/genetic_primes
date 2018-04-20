@@ -7,7 +7,7 @@
   "suppression_rate": 0.099,
   "c_evolution_rate": 0.07,
   "c_suppression_rate": 0.0699,
-  "starting_primes_for_evolution": 50,
+  "starting_primes_for_evaluation": 50,
   "primes": [
     1,
     2,
