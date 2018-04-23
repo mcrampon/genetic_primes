@@ -33,7 +33,7 @@ def main(path_to_save_file=None):
         utils.save_formulas_to_file(
           safe_copy,
           generation,
-          primes_for_evaluation
+          evolver.primes_for_evaluation
         )
   except KeyboardInterrupt:
     Logger.stop_save()
