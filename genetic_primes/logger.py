@@ -1,8 +1,12 @@
+from .conf import PRIMES
+
 class Logger():
   @staticmethod
-  def generation(generation):
+  def generation(generation, primes_for_evaluation):
+    goal = 1 * sum(PRIMES[:primes_for_evaluation]) / 100.0
     if generation % 100 == 0:
       print("GENERATION: " + str(generation))
+      print("GOAL: " + str(goal))
 
   @staticmethod
   def stop_save():

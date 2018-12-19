@@ -26,7 +26,7 @@ def main(path_to_save_file=None):
 
   try:
     for generation in range(starting_gen, GENERATIONS):
-      Logger.generation(generation)
+      Logger.generation(generation, evolver.primes_for_evaluation)
       safe_copy = copy.deepcopy(formulas)
       formulas = evolver.next_generation(formulas)
       if generation % 5000 == 0:
