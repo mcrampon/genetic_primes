@@ -82,7 +82,7 @@ class Evolver():
     return [child1, child2]
 
   def _next_primes_for_evaluation(self, formulas):
-    if formulas[0][1] < 5 * sum(PRIMES[:self.primes_for_evaluation]) / 100.0:
+    if formulas[0][1] < 1 * sum(PRIMES[:self.primes_for_evaluation]) / 100.0:
       return min(self.primes_for_evaluation + 1, 10**4)
     else:
       return self.primes_for_evaluation
