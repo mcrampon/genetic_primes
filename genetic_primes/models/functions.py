@@ -61,15 +61,19 @@ def safe_pow(value, option):
 def sin(value):
   try:
     return math.sin(value)
+  # Value too big -> arbitrary choice
   except OverflowError:
-    # Value too big -> arbitrary choice
+    return 0
+  except ValueError:
     return 0
 
 def cos(value):
   try:
     return math.cos(value)
+  # Value too big -> arbitrary choice
   except OverflowError:
-    # Value too big -> arbitrary choice
+    return 1
+  except ValueError:
     return 1
 
 # Functions that can be used to build genes, and the number of arguments
