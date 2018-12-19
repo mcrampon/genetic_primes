@@ -6,7 +6,8 @@ from .conf import (
   EVOLUTION_RATE,
   MUTATION_RATE,
   SMALL_MUTATION_RATE,
-  SUPPRESSION_RATE
+  SUPPRESSION_RATE,
+  COMPLETE_OVERRIDE_RATE
 )
 
 from .models.gene import Gene
@@ -31,6 +32,8 @@ class Mutator():
     self._add_chromosome()
     # C_SUPPRESSION_RATE
     self._remove_chromosome()
+    # COMPLETE_OVERRIDE_RATE
+    self._complete_override()
 
   def _mutate_gene(self):
     if random.random() < SMALL_MUTATION_RATE:
@@ -86,3 +89,11 @@ class Mutator():
       self.individual.chromosomes.pop(
         random.randint(0, len(self.individual.chromosomes) - 1)
       )
+
+  def _complete_override(self):
+    if (random.random() < COMPLETE_OVERRIDE_RATE):
+      self.individual.chromosomes = [
+        Chromosome([
+          Gene.create_gene() for gene in chromosome.genes
+        ]) for chromosome in self.individual.chromosomes
+      ]
